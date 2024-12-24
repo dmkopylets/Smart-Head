@@ -35,9 +35,9 @@ services:
     build:
       context: ./docker/apache
     volumes:
-      - ./app:/var/www:rw
-      - ./docker/apache/conf:/etc/apache2/sites-available
-      - ./docker/logs/apache:/var/log/apache2
+      - ./app:/var/www/app:rw
+      - ./docker/apache/conf/ssl:/usr/local/apache2/conf/ssl
+      - ./docker/logs/apache:/var/www/logs
     depends_on:
       - php-fpm
     ports:
@@ -45,5 +45,6 @@ services:
       - "443:443"
     environment:
       - APACHE_DOCUMENT_ROOT=/var/www/app/public
+      - APACHE_LOG_DIR=/var/www/logs
     extra_hosts:
       - host.docker.internal:${HOST_IP:-172.17.0.1}

@@ -21,14 +21,16 @@ RUN echo "Include conf/extra/000-default.conf" >> /usr/local/apache2/conf/httpd.
     echo "Include conf/extra/default-ssl.conf" >> /usr/local/apache2/conf/httpd.conf
 
 # Генеруємо SSL-сертифікати
-RUN mkdir -p /usr/local/apache2/conf/ssl && \
-    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-    -keyout /usr/local/apache2/conf/ssl/apache.key \
-    -out /usr/local/apache2/conf/ssl/apache.crt \
-    -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=localhost"
+#RUN mkdir -p /usr/local/apache2/conf/ssl && \
+#    openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+#    -keyout /usr/local/apache2/conf/ssl/apache.key \
+#    -out /usr/local/apache2/conf/ssl/apache.crt \
+#    -subj "/C=US/ST=Denial/L=Springfield/O=Dis/CN=localhost"
 
-RUN chmod 644 /usr/local/apache2/conf/ssl/apache.key
+#RUN chmod 644 /usr/local/apache2/conf/ssl/apache.key
 
 WORKDIR /var/www/app
+
+ENV APACHE_LOG_DIR=/var/www/logs
 
 EXPOSE 80 443
