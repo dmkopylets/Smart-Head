@@ -1,5 +1,6 @@
 DOCKER_COMPOSE = docker-compose
 EXEC_PHP       = $(DOCKER_COMPOSE) exec php-fpm
+EXEC_HTTP       = $(DOCKER_COMPOSE) exec apache
 DOCKER_COMPOSE_FILE = -f docker-compose.yml
 
 
@@ -31,6 +32,9 @@ dc-certbot:
 
 bash:
 	$(EXEC_PHP) bash
+
+bash-hppt:
+	$(EXEC_HTTP) bash
 
 composer-i:
 	$(EXEC_PHP) sh -c " composer install"
