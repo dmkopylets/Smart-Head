@@ -58,7 +58,7 @@ RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' 
 
 RUN apk add symfony-cli
 
-WORKDIR /var/www/app
+WORKDIR /var/www/localhost/htdocs/app
 
 #####################################
 # Composer:

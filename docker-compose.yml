@@ -27,7 +27,7 @@ services:
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
-      - ./app/:/var/www/app/
+      - ./app/:/var/www/localhost/htdocs/app/
     ports:
       - "9000:9000"
   apache:
@@ -35,8 +35,7 @@ services:
     build:
       context: ./docker/apache
     volumes:
-      - ./app:/usr/local/apache2/htdocs/app:rw
-      - ./docker/apache/conf:/usr/local/apache2/conf
+      - ./app:/var/www/localhost/htdocs/app:rw
       - ./docker/logs/apache:/var/www/logs:rw
     depends_on:
       - php-fpm
@@ -44,7 +43,7 @@ services:
       - "80:80"
       - "443:443"
     environment:
-      - APACHE_DOCUMENT_ROOT=/usr/local/apache2/htdocs/app/public
+      - APACHE_DOCUMENT_ROOT=/var/www/localhost/htdocs/app
       - APACHE_LOG_DIR=/var/www/logs
     extra_hosts:
       - host.docker.internal:${HOST_IP:-172.17.0.1}
