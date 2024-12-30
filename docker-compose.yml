@@ -30,8 +30,8 @@ services:
       - ./docker/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
       - ./docker/php-fpm/php-fpm.d/:/usr/local/etc/php-fpm.d
       - php-fpm-socket:/var/run/php-fpm
-#    ports:
-#      - "9000:9000"
+    ports:
+      - "9000:9000"
   apache:
     container_name: ${PROJECT_NAME}-apache
     build:
@@ -53,3 +53,4 @@ services:
       - host.docker.internal:${HOST_IP:-172.17.0.1}
 volumes:
   php-fpm-socket:
+    driver: local

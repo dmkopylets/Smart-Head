@@ -85,8 +85,19 @@ RUN apk --no-cache add shadow \
  && groupmod -o -g 1001 www-data \
  && usermod -o -u 1000 -g www-data www-data
 
+# Створення та налаштування прав для сокета
+USER root
+RUN mkdir -p /var/run/php-fpm && \
+    chown -R www-data:www-data /var/run/php-fpm && \
+    chmod 0755 /var/run/php-fpm
+
+COPY ./docker/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+# Повернення до користувача www-data
 USER www-data
 
+EXPOSE 9000
 CMD ["php-fpm"]
 
-EXPOSE 9000
