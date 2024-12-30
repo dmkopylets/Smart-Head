@@ -1,76 +1,92 @@
-FROM php:8.4-fpm-alpine AS php_fpm_alpine
-MAINTAINER uncle.dima <dm.kopylets@gmail.com>
-LABEL mainterner="uncle.dima <dm.kopylets@gmail.com>"
-LABEL description="Alpine based image with php 8.4-fpm"
+# Stage 1: Build dependencies
+FROM php:8.4.2-fpm-alpine AS builder
+LABEL description="Alpine based image with php:8.4.2-fpm"
 
+COPY ./app/ /var/www/localhost/htdocs/app/
+
+# Встановлення змінних оточення
 ENV COMPOSER_MEMORY_LIMIT='-1'
+ENV TZ="Europe/Kyiv"
+
+# Налаштування часової зони
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Встановлення базових утиліт і build-залежностей
+RUN apk add --no-cache --virtual .build-deps \
+    autoconf \
+    bash \
+    build-base \
+    coreutils \
+    curl \
+    freetype-dev \
+    libjpeg-turbo-dev \
+    libpng-dev \
+    libzip-dev \
+    postgresql-dev \
+    icu-dev \
+    zlib-dev \
+    oniguruma-dev \
+    linux-headers \
+ && apk add --no-cache git nodejs npm
+
+# Встановлення стандартних розширень PHP
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
+ && docker-php-ext-install \
+    bcmath \
+    calendar \
+    exif \
+    gd \
+    intl \
+    opcache \
+    pdo_pgsql \
+    zip \
+    sockets
+
+RUN pecl install apcu \
+ && docker-php-ext-enable apcu
+
+RUN pecl install xdebug \
+ && docker-php-ext-enable xdebug
+
+# Додавання Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Збереження фінальної структури
+RUN php -m && php --version
+
+# Stage 2: Runtime environment
+FROM php:8.4.2-fpm-alpine
+LABEL description="Slimmed down PHP 8.4.2 image with necessary extensions"
+
 ENV TZ="Europe/Kyiv"
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-RUN apk update \
- && apk upgrade \
- && apk add --no-cache \
- autoconf \
- bash \
- build-base \
- coreutils \
- curl \
- git \
- freetype-dev \
- libjpeg-turbo-dev \
- libpng-dev \
- libzip-dev \
- postgresql-dev \
- nodejs \
- npm \
- zlib-dev
+# Додавання лише runtime-залежностей
+RUN apk add --no-cache \
+    freetype \
+    libjpeg-turbo \
+    libpng \
+    libzip \
+    postgresql-libs \
+    icu-libs \
+    zlib \
+    oniguruma \
+    nodejs \
+    npm
 
-# install the PHP extensions we need
-
-RUN docker-php-ext-configure pgsql --with-pgsql=/usr/local/pgsql && \
-  docker-php-ext-install pgsql
-
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg && \
-  docker-php-ext-install gd
-
-RUN docker-php-ext-install intl opcache pdo_pgsql zip
-
-
-RUN pecl install apcu
-
-RUN docker-php-ext-enable apcu pdo_pgsql sodium
-
-RUN apk add --update linux-headers
-
-ADD ./docker-custom.ini /usr/local/etc/php/conf.d
-ADD ./opcache-recommended.ini /usr/local/etc/php/conf.d
-
-
-ARG PUID=1000
-ARG PGID=1000
-RUN apk --no-cache add shadow && \
-    groupmod -o -g ${PGID} www-data && \
-    usermod -o -u ${PUID} -g www-data www-data
-
-RUN chown -R www-data:www-data /var/www && chmod 755 /var/www
-
-RUN curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.alpine.sh' | bash
-
-RUN apk add symfony-cli
+# Копіювання з етапу builder
+COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+COPY --from=builder /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/localhost/htdocs/app
 
-#####################################
-# Composer:
-#####################################
+RUN apk --no-cache add shadow \
+ && groupmod -o -g 1001 www-data \
+ && usermod -o -u 1000 -g www-data www-data
 
-RUN curl -s http://getcomposer.org/installer | php && \
-    echo "export PATH=${PATH}:/var/www/vendor/bin" >> ~/.bashrc && \
-    mv composer.phar /usr/local/bin/composer
-
-# Change current user to www-data
 USER www-data
 
-EXPOSE 9000
-
 CMD ["php-fpm"]
+
+EXPOSE 9000

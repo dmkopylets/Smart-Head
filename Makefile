@@ -31,7 +31,7 @@ dc-certbot:
 	$(DOCKER_COMPOSE) $(DOCKER_COMPOSE_FILE) up -d icertbot
 
 bash:
-	$(EXEC_PHP) bash
+	$(EXEC_PHP) sh
 
 bash-hppt:
 	$(EXEC_HTTP) bash
@@ -40,7 +40,7 @@ composer-i:
 	$(EXEC_PHP) sh -c " composer install"
 
 clear-cache:
-	$(EXEC_PHP) bash -c " rm -rf app/var"
+	$(EXEC_PHP) sh -c " rm -rf app/var"
 
 migrate:
 	$(EXEC_PHP) sh -c " php bin/console doctrine:migrations:migrate --no-interaction"
