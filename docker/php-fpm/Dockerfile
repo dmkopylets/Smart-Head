@@ -2,7 +2,7 @@
 FROM php:8.4.2-fpm-alpine AS builder
 LABEL description="Alpine based image with php:8.4.2-fpm"
 
-COPY ./app/ /var/www/localhost/htdocs/app/
+COPY ./app/ /var/www/localhost/htdocs/
 
 # Встановлення змінних оточення
 ENV COMPOSER_MEMORY_LIMIT='-1'
@@ -79,7 +79,7 @@ COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions
 COPY --from=builder /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 COPY --from=builder /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/localhost/htdocs/app
+WORKDIR /var/www/localhost/htdocs
 
 RUN apk --no-cache add shadow \
  && groupmod -o -g 1001 www-data \
@@ -90,10 +90,6 @@ USER root
 RUN mkdir -p /var/run/php-fpm && \
     chown -R www-data:www-data /var/run/php-fpm && \
     chmod 0755 /var/run/php-fpm
-
-COPY ./docker/php-fpm/entrypoint.sh /usr/local/bin/entrypoint.sh
-RUN chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 
 # Повернення до користувача www-data
 USER www-data

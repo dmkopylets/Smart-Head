@@ -22,7 +22,7 @@ dc-build:
 	$(DOCKER_COMPOSE) $(DOCKER_COMPOSE_FILE) build postgres php-fpm apache
 
 dc-up:
-	$(DOCKER_COMPOSE) $(DOCKER_COMPOSE_FILE) up -d postgres php-fpm 
+	$(DOCKER_COMPOSE) $(DOCKER_COMPOSE_FILE) up -d postgres php-fpm apache
 
 dc-down:
 	$(DOCKER_COMPOSE) $(DOCKER_COMPOSE_FILE) down --remove-orphans
