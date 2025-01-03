@@ -1,15 +1,13 @@
 FROM httpd:2.4-alpine
-COPY ./app/ /usr/local/apache2/htdocs/
+#COPY ./code/ /usr/local/apache2/htdocs/
+COPY ./code/ /var/www/localhost/htdocs/
 
 ENV TZ="Europe/Kyiv"
 
-# Налаштування часової зони
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
-# Встановлення необхідних утиліт
 RUN apk add --no-cache bash openssl curl
 
-# Копіюємо власні конфігурації Apache
 COPY ./docker/apache/conf/ /usr/local/apache2/conf/
 
 RUN apk --no-cache add shadow \
@@ -18,7 +16,7 @@ RUN apk --no-cache add shadow \
 
 USER www-data
 
-WORKDIR /usr/local/apache2/htdocs
+WORKDIR /var/www/localhost/htdocs/
 
 ENV APACHE_LOG_DIR=/usr/local/apache2/logs
 

@@ -24,7 +24,7 @@ services:
       - APP_SECRET=${APP_SECRET}
       - DATABASE_URL=${DATABASE_URL}
     volumes:
-      - ./app/:/var/www/localhost/htdocs
+      - ./code/:/var/www/localhost/htdocs
       - ./docker/logs/php/:/var/log/php
       - ./docker/php-fpm/php/custom.ini:/usr/local/etc/php/php.ini
       - ./docker/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
@@ -38,7 +38,7 @@ services:
       context: .
       dockerfile: ./docker/apache/Dockerfile
     volumes:
-      - ./app:/var/www/localhost/htdocs
+      - ./code:/var/www/localhost/htdocs
       - ./docker/logs/apache:/usr/local/apache2/logs:rw
       - ./docker/apache/uploads:/usr/local/apache2/uploads
       - php-fpm-socket:/var/run/php-fpm
