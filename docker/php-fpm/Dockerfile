@@ -2,7 +2,7 @@
 FROM php:8.4.2-fpm-alpine AS builder
 LABEL description="Alpine based image with php:8.4.2-fpm"
 
-COPY ./app/ /var/www/localhost/htdocs/
+COPY ./code/ /var/www/localhost/htdocs/
 
 # Встановлення змінних оточення
 ENV COMPOSER_MEMORY_LIMIT='-1'

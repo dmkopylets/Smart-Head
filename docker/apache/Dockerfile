@@ -16,7 +16,7 @@ RUN apk --no-cache add shadow \
 
 USER www-data
 
-WORKDIR /var/www/localhost/htdocs/
+WORKDIR /var/www/localhost/htdocs
 
 ENV APACHE_LOG_DIR=/usr/local/apache2/logs
 
