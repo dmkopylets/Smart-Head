@@ -9,26 +9,23 @@ use App\Models\Genre;
 
 class MoviesTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        $drama = Genre::where('title', 'Драма')->first();
-        $comedy = Genre::where('title', 'Комедія')->first();
+        $drama = Genre::query()->where('title', 'Драма')->first();
+        $comedy = Genre::query()->where('title', 'Комедія')->first();
 
-        Movie::create([
+        $godfather = Movie::query()->create([
             'title' => 'Хрещений батько',
-            'published' => true,
+            'published' => false,
             'poster' => 'https://example.com/poster1.jpg',
-            'genres' => [$drama]
         ]);
+        $godfather->genres()->attach($drama);
 
-        Movie::create([
+        $trumanShow = Movie::query()->create([
             'title' => 'Шоу Трумана',
-            'published' => true,
+            'published' => false,
             'poster' => 'https://example.com/poster2.jpg',
-            'genres' => [$drama, $comedy]
         ]);
+        $trumanShow->genres()->attach([$drama->id, $comedy->id]);
     }
 }

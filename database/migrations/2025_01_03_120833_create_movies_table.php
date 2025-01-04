@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('movies', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->boolean('published');
+            $table->string('title')->unique();
+            $table->boolean('published')->default(false);
             $table->text('poster');
+            $table->SoftDeletes();
             $table->timestamps();
         });
     }

@@ -8,13 +8,25 @@ use App\Models\Genre;
 
 class GenresTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
+
+    private array $genres = [
+        [
+            'title' => 'Драма',
+        ],
+        [
+            'title' => 'Комедія',
+        ],
+        [
+            'title' => 'Фантастика',
+        ],
+        [
+            'title' => 'Навчання',
+        ],
+    ];
     public function run(): void
     {
-        Genre::create('Драма');
-        Genre::create('Комедія');
-        Genre::create('Фантастика');
+        foreach ($this->genres as $genre) {
+            Genre::query()->create($genre);
+        }
     }
 }
