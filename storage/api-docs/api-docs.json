@@ -1,0 +1,304 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Laravel Swagger API documentation for test task",
+        "contact": {
+            "name": "testtask",
+            "email": "dm.kopylets@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/v1/genres": {
+            "get": {
+                "tags": [
+                    "Genres"
+                ],
+                "summary": "Genres listing",
+                "operationId": "getGenresList",
+                "parameters": [
+                    {
+                        "name": "wanted_Genre_Title",
+                        "in": "query",
+                        "description": "part of the title of genre",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wanted_MovieId",
+                        "in": "query",
+                        "description": "id of related films",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Genres not found"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/genres/create": {
+            "post": {
+                "tags": [
+                    "Genres"
+                ],
+                "summary": "Genre creating",
+                "operationId": "createGenre",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title of genre",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "movie_id",
+                        "in": "query",
+                        "description": "id of related films",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "genre created"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/genres/{id}": {
+            "get": {
+                "tags": [
+                    "Genres"
+                ],
+                "summary": "View genre info",
+                "operationId": "getGenreById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Genres id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ }"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Genres"
+                ],
+                "summary": "Delete a genre",
+                "operationId": "deleteGenre",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Genres id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Genre not found"
+                    },
+                    "204": {
+                        "description": "Delete genre"
+                    }
+                }
+            }
+        },
+        "/api/v1/movies": {
+            "get": {
+                "tags": [
+                    "Movies"
+                ],
+                "summary": "Movies listing",
+                "operationId": "getMoviesList",
+                "parameters": [
+                    {
+                        "name": "wanted_Movie_Title",
+                        "in": "query",
+                        "description": "part of the title of movie",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "wanted_Movie_Status",
+                        "in": "query",
+                        "description": "status of movie (true or false)",
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "wanted_Movie_poster",
+                        "in": "query",
+                        "description": "part of the poster of movie",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "genre_id",
+                        "in": "query",
+                        "description": "id of related genres",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Movies not found"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/movies/create": {
+            "post": {
+                "tags": [
+                    "Movies"
+                ],
+                "summary": "Movie creating",
+                "operationId": "createMovie",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title of movie",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "published",
+                        "in": "query",
+                        "description": "status",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "poster",
+                        "in": "query",
+                        "description": "poster",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "genre created"
+                    },
+                    "422": {
+                        "description": "Validation failed"
+                    }
+                }
+            }
+        },
+        "/api/v1/movies/{id}": {
+            "get": {
+                "tags": [
+                    "Movies"
+                ],
+                "summary": "View movie info",
+                "operationId": "getMovieById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Movies id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{ }"
+                    }
+                }
+            }
+        },
+        "/api/v1/movie/{id}": {
+            "delete": {
+                "tags": [
+                    "Movies"
+                ],
+                "summary": "Delete a movie",
+                "operationId": "deleteMovie",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Movies id to delete",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Movie not found"
+                    },
+                    "204": {
+                        "description": "Delete genre"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Genres",
+            "description": "Genres"
+        },
+        {
+            "name": "Movies",
+            "description": "Movies"
+        }
+    ]
+}
