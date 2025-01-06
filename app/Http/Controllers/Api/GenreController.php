@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CreateGenreRequest;
 use App\Models\Genre;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
 
 class GenreController extends ApiController
 {
@@ -19,7 +18,7 @@ class GenreController extends ApiController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/genres",
+     *     path="/api/genres",
      *     summary="Genres listing",
      *     operationId="getGenresList",
      *     tags={"Genres"},
@@ -64,7 +63,7 @@ class GenreController extends ApiController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/genres/create",
+     *     path="/api/genres/create",
      *     summary="Genre creating",
      *     operationId="createGenre",
      *     tags={"Genres"},
@@ -104,7 +103,7 @@ class GenreController extends ApiController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/genres/{id}",
+     *     path="/api/genres/{id}",
      *     summary="View genre info",
      *     operationId="getGenreById",
      *     tags={"Genres"},
@@ -134,7 +133,7 @@ class GenreController extends ApiController
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/genres/{id}",
+     *     path="/api/genres/{id}",
      *     summary="Delete a genre",
      *     operationId="deleteGenre",
      *     tags={"Genres"},

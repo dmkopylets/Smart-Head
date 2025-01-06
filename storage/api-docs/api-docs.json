@@ -3,13 +3,13 @@
     "info": {
         "title": "Laravel Swagger API documentation for test task",
         "contact": {
-            "name": "testtask",
+            "name": "Dmytro",
             "email": "dm.kopylets@gmail.com"
         },
         "version": "1.0.0"
     },
     "paths": {
-        "/api/v1/genres": {
+        "/api/genres": {
             "get": {
                 "tags": [
                     "Genres"
@@ -48,7 +48,7 @@
                 }
             }
         },
-        "/api/v1/genres/create": {
+        "/api/genres/create": {
             "post": {
                 "tags": [
                     "Genres"
@@ -85,7 +85,7 @@
                 }
             }
         },
-        "/api/v1/genres/{id}": {
+        "/api/genres/{id}": {
             "get": {
                 "tags": [
                     "Genres"
@@ -136,7 +136,7 @@
                 }
             }
         },
-        "/api/v1/movies": {
+        "/api/movies": {
             "get": {
                 "tags": [
                     "Movies"
@@ -191,7 +191,7 @@
                 }
             }
         },
-        "/api/v1/movies/create": {
+        "/api/movies/create": {
             "post": {
                 "tags": [
                     "Movies"
@@ -237,7 +237,7 @@
                 }
             }
         },
-        "/api/v1/movies/{id}": {
+        "/api/movies/{id}": {
             "get": {
                 "tags": [
                     "Movies"
@@ -262,7 +262,7 @@
                 }
             }
         },
-        "/api/v1/movie/{id}": {
+        "/api/movie/{id}": {
             "delete": {
                 "tags": [
                     "Movies"

@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\CreateMovieRequest;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use OpenApi\Annotations as OA;
 
 class MovieController extends ApiController
 {
@@ -19,7 +18,7 @@ class MovieController extends ApiController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/movies",
+     *     path="/api/movies",
      *     summary="Movies listing",
      *     operationId="getMoviesList",
      *     tags={"Movies"},
@@ -82,7 +81,7 @@ class MovieController extends ApiController
 
     /**
      * @OA\Post(
-     *     path="/api/v1/movies/create",
+     *     path="/api/movies/create",
      *     summary="Movie creating",
      *     operationId="createMovie",
      *     tags={"Movies"},
@@ -131,7 +130,7 @@ class MovieController extends ApiController
 
     /**
      * @OA\Get(
-     *     path="/api/v1/movies/{id}",
+     *     path="/api/movies/{id}",
      *     summary="View movie info",
      *     operationId="getMovieById",
      *     tags={"Movies"},
@@ -161,7 +160,7 @@ class MovieController extends ApiController
 
     /**
      * @OA\Delete(
-     *     path="/api/v1/movie/{id}",
+     *     path="/api/movie/{id}",
      *     summary="Delete a movie",
      *     operationId="deleteMovie",
      *     tags={"Movies"},

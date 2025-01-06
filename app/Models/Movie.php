@@ -44,6 +44,7 @@ class Movie extends Model
         return self::query()
             ->select('movies.id', 'movies.title', 'movies.published', 'movies.poster')
             ->selectRaw('STRING_AGG(movie_genre.genre_id::TEXT, \',\') as genres')
+            ->selectRaw('CONCAT(?, \'/movies/\', movies.id) as details', [url('/api')])
             ->leftJoin('movie_genre', 'movies.id', '=', 'movie_genre.movie_id')
             ->groupBy('movies.id', 'movies.title')
             ->when($title, function ($query, $title) {

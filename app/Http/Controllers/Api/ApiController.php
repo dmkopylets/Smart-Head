@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Api\V1;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiRequest;
 use App\Traits\ApiResponse;
 use Illuminate\Database\Eloquent\Model;
-use OpenApi\Annotations as OA;
 
 abstract class ApiController extends Controller
 {
@@ -19,7 +18,7 @@ abstract class ApiController extends Controller
      *     title="Laravel Swagger API documentation for test task",
      *     version="1.0.0",
      *     @OA\Contact(
-     *         name="testtask",
+     *         name="Dmytro",
      *         email="dm.kopylets@gmail.com"
      *         )
      * )

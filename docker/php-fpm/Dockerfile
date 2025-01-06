@@ -1,9 +1,9 @@
 # Stage 1: Build dependencies
-FROM php:8.4.2-fpm-alpine AS builder
+FROM php:8.4-fpm-alpine AS builder
 LABEL description="Alpine based image with php:8.4.2-fpm"
 
-#COPY ./ /var/www/localhost/htdocs/
-RUN mkdir -p /var/www/localhost/htdocs/
+COPY ./ /var/www/localhost/htdocs/
+#RUN mkdir -p /var/www/localhost/htdocs/
 
 # Встановлення змінних оточення
 ENV COMPOSER_MEMORY_LIMIT='-1'
@@ -56,7 +56,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN php -m && php --version
 
 # Stage 2: Runtime environment
-FROM php:8.4.2-fpm-alpine
+FROM php:8.4-fpm-alpine
 LABEL description="Slimmed down PHP 8.4.2 image with necessary extensions"
 
 ENV TZ="Europe/Kyiv"
