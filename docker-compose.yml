@@ -1,0 +1,60 @@
+services:
+  postgres:
+    container_name: ${APP_NAME}-postgres
+    build:
+      context: .
+      dockerfile: ./docker/postgres/Dockerfile
+    image: postgres:17.2-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_HOST: '${DB_HOST}'
+      POSTGRES_DB: '${DB_DATABASE}'
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD:-passw0rd}'
+    ports:
+      - "${DB_PORT}:5432"
+    volumes:
+      - ../db/data:/var/lib/postgresql/data:rw
+  php-fpm:
+    container_name: ${APP_NAME}-php-fpm
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      - APP_ENV=${APP_ENV}
+      - APP_KEY=${APP_KEY}
+    volumes:
+      - ./:/var/www/localhost/htdocs
+      - ../logs/php/:/var/log/php
+      - ./docker/php-fpm/php/custom.ini:/usr/local/etc/php/php.ini
+      - ./docker/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.conf
+      - ./docker/php-fpm/php-fpm.d/:/usr/local/etc/php-fpm.d
+      - php-fpm-socket:/var/run/php-fpm
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+  apache:
+    container_name: ${APP_NAME}-apache
+    build:
+      context: .
+      dockerfile: ./docker/apache/Dockerfile
+    volumes:
+      - ./:/var/www/localhost/htdocs
+      - ./docker/apache/conf:/usr/local/apache2/conf
+      - ../logs/apache:/usr/local/apache2/logs:rw
+      - ./docker/apache/uploads:/usr/local/apache2/uploads
+      - php-fpm-socket:/var/run/php-fpm
+    depends_on:
+      - php-fpm
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/localhost/htdocs/public
+    extra_hosts:
+      - host.docker.internal:${HOST_IP:-172.20.0.1}
+volumes:
+  php-fpm-socket:
+    driver: local
