@@ -1,9 +1,0 @@
-# MIME media types
-text/html                              html htm
-text/plain                             txt
-image/jpeg                             jpeg jpg jpe
-image/png                              png
-application/json                       json
-application/xml                        xml
-application/javascript                 js
-application/x-httpd-php                php
