@@ -30,6 +30,9 @@ dc-down:
 bash:
 	$(EXEC_PHP) sh
 
+abash:
+	$(EXEC_HTTP) sh
+
 composer-i:
 	$(EXEC_PHP) sh -c " composer install"
 
