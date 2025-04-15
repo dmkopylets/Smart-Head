@@ -38,7 +38,7 @@ class Movie extends Model
         ? string $title = '',
         ? string $status = '',
         ? string $poster = '',
-        ? string $genreisIds = '',
+        ? string $genreIds = '',
     ): Collection
     {
         return self::query()
@@ -50,8 +50,8 @@ class Movie extends Model
             ->when($title, function ($query, $title) {
                 return $query->where('movies.title', 'like', '%' . $title . '%');
             })
-            ->when($genreisIds, function ($query, $genreId) {
-                return $query->whereRaw('? = ANY(STRING_TO_ARRAY(STRING_AGG(movie_genre.genre_id::TEXT, \',\')))', [$genreId]);
+            ->when($genreIds, function ($query, $genreIdsString) {
+                return $query->whereIntegerInRaw('movie_genre.genre_id', explode(',', $genreIdsString));
             })
             ->get();
     }
