@@ -41,12 +41,16 @@ class Movie extends Model
         ? string $genreIds = '',
     ): Collection
     {
+        $baseUrl = url('/api');
+
         return self::query()
             ->select('movies.id', 'movies.title', 'movies.published', 'movies.poster')
             ->selectRaw('STRING_AGG(movie_genre.genre_id::TEXT, \',\') as genres')
-            ->selectRaw('CONCAT(?, \'/movies/\', movies.id) as details', [url('/api')])
+            ->selectRaw("? || '/movies/' || movies.id as details", [$baseUrl])
             ->leftJoin('movie_genre', 'movies.id', '=', 'movie_genre.movie_id')
+            ->leftJoin('genres', 'movie_genre.genre_id', '=', 'genres.id')
             ->groupBy('movies.id', 'movies.title')
+            ->selectRaw('STRING_AGG(genres.title, \', \') as genres_text')
             ->when($title, function ($query, $title) {
                 return $query->where('movies.title', 'like', '%' . $title . '%');
             })

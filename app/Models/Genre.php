@@ -32,7 +32,10 @@ class Genre extends Model
             ->where('id', $genreId)->first();
     }
 
-    public function getList(? string $title = '', ? string $movieId = ''): Collection
+    public function getList(
+        ? string $title = '',
+        ? string $movieId = '',
+    ): Collection
     {
         return self::query()
             ->select('genres.id', 'genres.title')
