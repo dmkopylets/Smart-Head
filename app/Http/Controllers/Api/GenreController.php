@@ -30,15 +30,6 @@ class GenreController extends ApiController
      *             type="string",
      *         )
      *     ),
-     *     @OA\Parameter(
-     *          description="id of related films",
-     *          name="wanted_MovieId",
-     *          required=false,
-     *          in="query",
-     *          @OA\Schema(
-     *              type="string",
-     *          )
-     *      ),
      *     @OA\Response(
      *          response=404,
      *          description="Genres not found",
@@ -70,15 +61,6 @@ class GenreController extends ApiController
      *     @OA\Parameter(
      *         description="Title of genre",
      *         name="title",
-     *         required=true,
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string",
-     *         )
-     *     ),
-     *     @OA\Parameter(
-     *         description="id of related films",
-     *         name="movie_id",
      *         required=true,
      *         in="query",
      *         @OA\Schema(

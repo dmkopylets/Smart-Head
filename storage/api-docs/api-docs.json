@@ -24,15 +24,6 @@
                         "schema": {
                             "type": "string"
                         }
-                    },
-                    {
-                        "name": "wanted_MovieId",
-                        "in": "query",
-                        "description": "id of related films",
-                        "required": false,
-                        "schema": {
-                            "type": "string"
-                        }
                     }
                 ],
                 "responses": {
@@ -60,15 +51,6 @@
                         "name": "title",
                         "in": "query",
                         "description": "Title of genre",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "name": "movie_id",
-                        "in": "query",
-                        "description": "id of related films",
                         "required": true,
                         "schema": {
                             "type": "string"
