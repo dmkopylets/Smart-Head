@@ -25,11 +25,21 @@ class Genre extends Model
 
     public function getDetails(int $genreId): mixed
     {
-        return Genre::query()->select(
-            'id',
-            'title',
-        )
-            ->where('id', $genreId)->first();
+        $movieId = '';
+
+        $query = self::query()
+            ->select('genres.id', 'genres.title')
+            ->selectRaw('STRING_AGG(movie_genre.movie_id::TEXT, \',\') as movies')
+            ->leftJoin('movie_genre', 'genres.id', '=', 'movie_genre.genre_id')
+            ->leftJoin('movies', 'movie_genre.movie_id', '=', 'movies.id')
+            ->groupBy('genres.id', 'genres.title')
+            ->selectRaw('STRING_AGG(movies.title, \', \') as movies_text')
+            ->where('genres.id', $genreId)
+            ->when($movieId, function ($query, $movieId) {
+                return $query->whereRaw('? = ANY(STRING_TO_ARRAY(STRING_AGG(movie_genre.movie_id::TEXT, \',\')))', [$movieId]);
+            });
+
+        return $query->first();
     }
 
     public function getList(
